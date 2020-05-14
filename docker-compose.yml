@@ -1,0 +1,29 @@
+version: '2'
+services:
+    reverseproxy:
+        image: reverseproxy
+        ports:
+            - 8080:8080
+        restart: always
+ 
+    nginx:
+        depends_on:
+            - reverseproxy
+        image: nginx:alpine
+        restart: always
+ 
+    node:
+        depends_on:
+            - reverseproxy
+        image: kenan/node-web-app:latest
+        ports:
+            - 8083:8081
+        restart: always
+    
+    bulletin:
+        depends_on:
+            - reverseproxy
+        image: kenan/bulletin:latest
+        ports:
+            - 8085:8082
+        restart: always
